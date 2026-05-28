@@ -1,0 +1,62 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+
+const theme = ref("light")
+
+const toggleTheme = () => {
+    theme.value = theme.value === "light" ? "dark" : "light"
+
+    document.documentElement.setAttribute("data-theme", theme.value)
+    sessionStorage.setItem("theme", theme.value)
+}
+onMounted(() => {
+    const saved = sessionStorage.getItem("theme")
+    if (saved) {
+        theme.value = saved
+    }
+    document.documentElement.setAttribute("data-theme", theme.value)
+})
+</script>
+
+<template>
+    <div class="navbar bg-base-100 shadow-sm">
+        <div class="flex-1">
+            <router-link to="/" class="btn btn-ghost text-xl">Shiday1993</router-link>
+        </div>
+        <label class="flex cursor-pointer gap-2 me-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5" />
+                <path
+                    d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+            </svg>
+            <input type="checkbox" class="toggle" :checked="theme === 'dark'" @change="toggleTheme" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </label>
+        <div class="flex gap-2">
+
+            <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                    <div class="w-10 rounded-full">
+                        <img alt="Tailwind CSS Navbar component"
+                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                    </div>
+                </div>
+                <ul tabindex="-1"
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                    <li><router-link to="/">Homepage</router-link></li>
+                    <li>
+                        <router-link to="#/profile" class="justify-between">
+                            Profile
+                        </router-link>
+                    </li>
+                    <li><router-link to="/about">About Me</router-link></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
